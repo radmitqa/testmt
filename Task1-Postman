@@ -1,0 +1,39 @@
+//Task 1 Postman API test
+// Set JSON as variable
+var jsonData = pm.response.json();
+
+// Check is status 200
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+// Check JSON node for title presence 
+pm.test("JSON node contains title", function () {
+    pm.expect(pm.response.text()).to.include("title");
+});
+
+// Check matching for the title value 
+pm.test("JSON node Title value matching", function () {
+    pm.expect(jsonData.title).to.eql("delectus aut autem");
+});
+
+// Set environment variable
+pm.environment.set("completed", "false");
+
+// Is it a boolean
+var schema = {
+  "completed": {
+    "type": "boolean"
+  }
+};
+
+var data1 = [true, false];
+var data2 = [true, 123];
+
+pm.test('Completed node value is a boolean', function() {
+  pm.expect(tv4.validate(data1, schema)).to.be.true;
+  pm.expect(tv4.validate(data2, schema)).to.be.true;
+});
+
+// Unset environment variable
+pm.environment.unset("completed")
