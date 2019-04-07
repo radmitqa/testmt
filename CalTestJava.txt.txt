@@ -1,0 +1,216 @@
+package com.example.myapplication2;
+
+
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
+
+@LargeTest
+@RunWith(AndroidJUnit4.class)
+public class CalTestJava {
+
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    @Test
+    // Test No 3 Calculator start, assert result and close and go back to the starting screen
+    public void calTestJava() {
+        ViewInteraction viewGroup = onView(
+                allOf(childAtPosition(
+                        allOf(withId(android.R.id.content),
+                                childAtPosition(
+                                        withId(R.id.decor_content_parent),
+                                        1)),
+                        0),
+                        isDisplayed()));
+        viewGroup.check(matches(isDisplayed()));
+        // Allow
+        ViewInteraction viewGroup2 = onView(
+                allOf(childAtPosition(
+                        childAtPosition(
+                                withId(com.google.android.apps.nexuslauncher.R.id.workspace),
+                                0),
+                        0),
+                        isDisplayed()));
+        viewGroup2.check(matches(isDisplayed()));
+        // Press button to go to search form
+        ViewInteraction imageView = onView(
+                allOf(withId(com.google.android.apps.nexuslauncher.R.id.all_apps_handle), withContentDescription("Apps list"),
+                        childAtPosition(
+                                allOf(withId(com.google.android.apps.nexuslauncher.R.id.page_indicator),
+                                        childAtPosition(
+                                                withId(com.google.android.apps.nexuslauncher.R.id.drag_layer),
+                                                3)),
+                                0),
+                        isDisplayed()));
+        imageView.check(matches(isDisplayed()));
+        // App list screen
+        ViewInteraction editText = onView(
+                allOf(withId(com.google.android.apps.nexuslauncher.R.id.search_box_input), withText("  Search Apps"),
+                        childAtPosition(
+                                allOf(withId(com.google.android.apps.nexuslauncher.R.id.search_container),
+                                        childAtPosition(
+                                                withId(com.google.android.apps.nexuslauncher.R.id.main_content),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        editText.check(matches(isDisplayed()));
+
+        ViewInteraction editText2 = onView(
+                allOf(withId(com.google.android.apps.nexuslauncher.R.id.search_box_input), withText("  Search Apps"),
+                        childAtPosition(
+                                allOf(withId(com.google.android.apps.nexuslauncher.R.id.search_container),
+                                        childAtPosition(
+                                                withId(com.google.android.apps.nexuslauncher.R.id.main_content),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        editText2.check(matches(withText("  Search Apps")));
+
+        // Add search term 'Cal' to search control
+        ViewInteraction editText3 = onView(
+                allOf(withId(com.google.android.apps.nexuslauncher.R.id.search_box_input), withText("Cal"),
+                        childAtPosition(
+                                allOf(withId(com.google.android.apps.nexuslauncher.R.id.search_container),
+                                        childAtPosition(
+                                                withId(com.google.android.apps.nexuslauncher.R.id.main_content),
+                                                0)),
+                                0),
+                        isDisplayed()));
+        editText3.check(matches(withText("Cal")));
+        // Calculator app exists
+        ViewInteraction textView = onView(
+                allOf(withId(com.google.android.apps.nexuslauncher.R.id.icon), withText("Calculator"), withContentDescription("Calculator"),
+                        childAtPosition(
+                                allOf(withId(com.google.android.apps.nexuslauncher.R.id.apps_list_view),
+                                        childAtPosition(
+                                                withId(com.google.android.apps.nexuslauncher.R.id.main_content),
+                                                2)),
+                                1),
+                        isDisplayed()));
+        textView.check(matches(isDisplayed()));
+        // Assert calculator controls
+        ViewInteraction viewGroup3 = onView(
+                allOf(withId(com.android.calculator2.R.id.pad_numeric),
+                        childAtPosition(
+                                allOf(withContentDescription("Numbers and basic operations"),
+                                        withParent(withId(com.android.calculator2.R.id.pad_pager))),
+                                0),
+                        isDisplayed()));
+        viewGroup3.check(matches(isDisplayed()));
+        // Assert cal window
+        ViewInteraction textView2 = onView(
+                allOf(withId(com.android.calculator2.R.id.formula), withContentDescription("No formula"),
+                        childAtPosition(
+                                allOf(withId(com.android.calculator2.R.id.formula_container),
+                                        childAtPosition(
+                                                withId(com.android.calculator2.R.id.display),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        textView2.check(matches(isDisplayed()));
+        // Add 1+1
+        ViewInteraction textView3 = onView(
+                allOf(withId(com.android.calculator2.R.id.formula), withText("1+1"),
+                        childAtPosition(
+                                allOf(withId(com.android.calculator2.R.id.formula_container),
+                                        childAtPosition(
+                                                withId(com.android.calculator2.R.id.display),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        textView3.check(matches(withText("1+1")));
+        // Assert =
+        ViewInteraction button = onView(
+                allOf(withId(com.android.calculator2.R.id.eq), withContentDescription("equals"),
+                        childAtPosition(
+                                allOf(withId(com.android.calculator2.R.id.pad_numeric),
+                                        childAtPosition(
+                                                withContentDescription("Numbers and basic operations"),
+                                                0)),
+                                11),
+                        isDisplayed()));
+        button.check(matches(isDisplayed()));
+        // Assert result
+        ViewInteraction textView4 = onView(
+                allOf(withId(com.android.calculator2.R.id.result), withText("2"),
+                        childAtPosition(
+                                allOf(withId(com.android.calculator2.R.id.display),
+                                        childAtPosition(
+                                                withId(com.android.calculator2.R.id.main_calculator),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        textView4.check(matches(withText("2")));
+        // Confirm result
+        ViewInteraction textView5 = onView(
+                allOf(withId(com.android.calculator2.R.id.result), withText("2"),
+                        childAtPosition(
+                                allOf(withId(com.android.calculator2.R.id.display),
+                                        childAtPosition(
+                                                withId(com.android.calculator2.R.id.main_calculator),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        textView5.check(matches(isDisplayed()));
+        // Clear result
+        ViewInteraction button2 = onView(
+                allOf(withId(com.android.calculator2.R.id.clr), withContentDescription("clear"),
+                        childAtPosition(
+                                allOf(withId(com.android.calculator2.R.id.pad_operator),
+                                        childAtPosition(
+                                                withContentDescription("Numbers and basic operations"),
+                                                1)),
+                                0),
+                        isDisplayed()));
+        button2.check(matches(isDisplayed()));
+        // Go back to the main screen
+        ViewInteraction viewGroup4 = onView(
+                allOf(childAtPosition(
+                        childAtPosition(
+                                withId(com.google.android.apps.nexuslauncher.R.id.workspace),
+                                0),
+                        0),
+                        isDisplayed()));
+        viewGroup4.check(matches(isDisplayed()));
+    }
+
+    private static Matcher<View> childAtPosition(
+            final Matcher<View> parentMatcher, final int position) {
+
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("Child at position " + position + " in parent ");
+                parentMatcher.describeTo(description);
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+                ViewParent parent = view.getParent();
+                return parent instanceof ViewGroup && parentMatcher.matches(parent)
+                        && view.equals(((ViewGroup) parent).getChildAt(position));
+            }
+        };
+    }
+}
